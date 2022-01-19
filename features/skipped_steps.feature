@@ -165,3 +165,29 @@ Feature: Skipped steps
     Then it passes
     And scenario "a scenario" "After" hook has status "passed"
     And scenario "a scenario" has status "skipped"
+
+  @wip
+  Scenario: Synchronous skipped step in a longer scenario
+    Given a file named "features/skipped.feature" with:
+      """
+      Feature: a feature
+        Scenario: a scenario
+          When a skipped step
+          Then another step
+      """
+    And a file named "features/step_definitions/skipped_steps.js" with:
+      """
+      const { When, Then } = require('@cucumber/cucumber')
+
+      When("a skipped step", function() {
+        return 'skipped'
+      })
+      Then("another step", function() {
+        throw new Error("This should never happen!")
+      })
+      """
+    When I run cucumber-js
+    Then it passes
+    And scenario "a scenario" step "When a skipped step" has status "skipped"
+    And scenario "a scenario" step "Then another step" has status "skipped"
+    And scenario "a scenario" has status "skipped"
