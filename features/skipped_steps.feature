@@ -6,16 +6,15 @@ Feature: Skipped steps
 
   There are three methods of skipping. One for synchronous steps, one for an asynchronous callback, and one for an asynchronous promise.
 
-  Background:
+
+  Scenario: Synchronous skipped step
     Given a file named "features/skipped.feature" with:
       """
       Feature: a feature
         Scenario: a scenario
           Given a skipped step
       """
-
-  Scenario: Synchronous skipped step
-    Given a file named "features/step_definitions/skipped_steps.js" with:
+    And a file named "features/step_definitions/skipped_steps.js" with:
       """
       const {Given} = require('@cucumber/cucumber')
 
@@ -28,9 +27,14 @@ Feature: Skipped steps
     And scenario "a scenario" step "Given a skipped step" has status "skipped"
     And scenario "a scenario" has status "skipped"
 
-
   Scenario: Callback skipped step
-    Given a file named "features/step_definitions/skipped_steps.js" with:
+    Given a file named "features/skipped.feature" with:
+      """
+      Feature: a feature
+        Scenario: a scenario
+          Given a skipped step
+      """
+    And a file named "features/step_definitions/skipped_steps.js" with:
       """
       const {Given} = require('@cucumber/cucumber')
 
@@ -44,7 +48,13 @@ Feature: Skipped steps
     And scenario "a scenario" has status "skipped"
 
   Scenario: Promise skipped step
-    Given a file named "features/step_definitions/skipped_steps.js" with:
+    Given a file named "features/skipped.feature" with:
+      """
+      Feature: a feature
+        Scenario: a scenario
+          Given a skipped step
+      """
+    And a file named "features/step_definitions/skipped_steps.js" with:
       """
       const {Given} = require('@cucumber/cucumber')
 
@@ -64,7 +74,13 @@ Feature: Skipped steps
     And scenario "a scenario" has status "skipped"
 
   Scenario: Hook skipped scenario steps
-    Given a file named "features/support/hooks.js" with:
+    Given a file named "features/skipped.feature" with:
+      """
+      Feature: a feature
+        Scenario: a scenario
+          Given a skipped step
+      """
+    And a file named "features/support/hooks.js" with:
       """
       const {After, Before} = require('@cucumber/cucumber')
 
@@ -84,7 +100,13 @@ Feature: Skipped steps
     And scenario "a scenario" has status "skipped"
 
   Scenario: Skipped before hook should skip all before hooks
-    Given a file named "features/step_definitions/world.js" with:
+    Given a file named "features/skipped.feature" with:
+      """
+      Feature: a feature
+        Scenario: a scenario
+          Given a skipped step
+      """
+    And a file named "features/step_definitions/world.js" with:
       """
       const {setWorldConstructor} = require('@cucumber/cucumber')
       setWorldConstructor(function() {
@@ -115,7 +137,13 @@ Feature: Skipped steps
     And scenario "a scenario" has status "skipped"
 
   Scenario: Skipped before hook should run after hook
-    Given a file named "features/support/hooks.js" with:
+    Given a file named "features/skipped.feature" with:
+      """
+      Feature: a feature
+        Scenario: a scenario
+          Given a skipped step
+      """
+    And a file named "features/support/hooks.js" with:
       """
       const {After, Before} = require('@cucumber/cucumber')
 
